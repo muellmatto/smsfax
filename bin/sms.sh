@@ -110,6 +110,8 @@ font () {
     m=${m//Ö/Oe}
     m=${m//ö/oe}
     m=${m//ß/ss}
+    m=${m//\!/ \!}
+    m=${m//\?/ \?}
 
     #### TODO
     ## Große Fonts, wie isometric drucken keine leerzeichen, baucht wie nen workaround
