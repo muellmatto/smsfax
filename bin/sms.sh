@@ -1,84 +1,49 @@
 #!/bin/bash
 
-## Get phonenumber and message:
-
+## Get phonenumber and message: ##########
 from=$SMS_1_NUMBER
 m1=$SMS_1_TEXT
 m2=$SMS_2_TEXT
 m3=$SMS_3_TEXT
 m4=$SMS_4_TEXT
 m5=$SMS_5_TEXT
-# m6=$SMS_6_TEXT
-# m7=$SMS_7_TEXT
 
-## concatenate sms messages:
-
+## concatenate sms messages: #############
 m=$m1$m2$m3$m4$m5
 
-#if [ -z $m ]
-#    then
-#        exit 1
-#fi
+## Check ist message is empty ############
+if [ -z $m ] ; then exit 1 ; fi
 
-
-## Replace Umlaute
-
-#m=${m//Ü/Ue}
-#m=${m//ü/ue}
-#m=${m//Ä/Ae}
-#m=${m//ä/ae}
-#m=${m//Ö/Oe}
-#m=${m//ö/oe}
-#m=${m//ß/ss}
-
-
-## Replace some Emojis
-
+### TODO : Mehr Emojis, evtl manche gegen n ascii art ersetzen!
+## Replace some Emojis ###################
 m=${m//😀/\ :-)\ }
 #m=${m//👍/\ :-)\ }
-#m=${m//😀/\ :-)\ }
-#m=${m//😀/\ :-)\ }
-#m=${m//😀/\ :-)\ }
-#m=${m//😀/\ :-)\ }
 
-# message=$m
 
-## Substitute phonenumber with names
+## Script location #################################################
+bindir="/home/matto/Workspace/engelsmsfax/smsfax/bin"
+artdir="/home/matto/Workspace/engelsmsfax/smsfax/art"
+numfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/nummern.csv"
 
-case $from in
-"+4917656955101")
-  from="Sapho"
-  ;;
-"+491721978753")
-  from="Matto"
-  ;;
-"+4916095486022")
-  from="Max"
-  ;;
-"+491635078296")
-  from="May"
-  ;;
-"+491774433546")
-  from="Markus"
-  ;;
-"+4916096688014")
-  from="Boiko"
-  ;;
-esac
 
-## Greeter
+## Substitute phonenumber with names ################################
+if [ -n $(grep $from "$numfile" | cut -d ";" -f 2) ]
+    then
+        from=$(grep $from "$numfile" | cut -d ";" -f 2)
+fi
+
+
+## Greeter ##########################################################
 intro="Wichtige Durchsage von $from!"
 
 
+## Plain text out ###################################################
 out () {
-    echo -e "$intro \n$m" | /home/matto/bin/thermo.sh 
-}
+    echo -e "$intro \n$m" | $bindir/thermo.sh 
+    }
 
 
-
-## ----------------------------------
-## cowsay style
-
+## cowsay out ########################################################
 cow () {
     case "${m:2:2}" in
         "B ")
@@ -125,13 +90,11 @@ cow () {
         ;;
     esac
     # -W 20 !
-    cowsay -f $style -W 20 "$intro ${m:4}" | /home/matto/bin/thermo.sh
+    cowsay -f $style -W 20 "$intro ${m:4}" | $bindir/thermo.sh
 }
 
 
-## --------------------------------
-## figlet style / font
-
+## figlet style / font out ###################################################
 font () {
     case "${m:2:2}" in
         "C ")
@@ -150,13 +113,23 @@ font () {
             style="small"
         ;;
     esac
-    echo -e "$intro \n" | /home/matto/bin/thermo.sh 
-    figlet -w 24 -f $style "${m:4}" | /home/matto/bin/thermo.sh
+    echo -e "$intro \n" | $bindir/thermo.sh
+    ## figlet kennt keine Umlaute!
+    m=${m//Ü/Ue}
+    m=${m//ü/ue}
+    m=${m//Ä/Ae}
+    m=${m//ä/ae}
+    m=${m//Ö/Oe}
+    m=${m//ö/oe}
+    m=${m//ß/ss}
+    #### TODO
+    ## Große Fonts, wie isometric drucken keine leerzeichen, baucht wie nen workaround
+    ## vll n paar mal echo -e "\n" | $bindir/thermo.sh oder so 
+    figlet -w 24 -f $style "${m:4}" | $bindir/thermo.sh
 }
 
-## -----------------------------
-## ascii art
 
+## ascii art out ##########################################################
 art () {
     case "${m:2:2}" in
         "B ")
@@ -166,12 +139,12 @@ art () {
             file="batman.txt"
         ;;
     esac
-    echo -e "$intro \n${m:4}\n" | /home/matto/bin/thermo.sh 
-    cat "/home/matto/art/$file" | /home/matto/bin/thermo.sh
+    echo -e "$intro \n${m:4}\n" | $bindir/thermo.sh 
+    cat "$artdir/$file" | $bindir/thermo.sh
 }
 
 
-
+## Message parser #######################################################
 parser () {
     case ${m:0:2} in
         "#C")
@@ -188,5 +161,8 @@ parser () {
         ;;
 esac
 }
+
+
+## Start: calling parser ##############################################
 
 parser
