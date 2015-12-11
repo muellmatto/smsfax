@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Get phonenumber and message: ##########
+## Get phonenumber and message(s): ################################
 from=$SMS_1_NUMBER
 m1=$SMS_1_TEXT
 m2=$SMS_2_TEXT
@@ -8,14 +8,15 @@ m3=$SMS_3_TEXT
 m4=$SMS_4_TEXT
 m5=$SMS_5_TEXT
 
-## concatenate sms messages: #############
+## concatenate sms messages: #####################################
 m=$m1$m2$m3$m4$m5
 
-## Check ist message is empty ############
-if [ -z $m ] ; then exit 1 ; fi
+## Check ist message is empty ###################################
+## Warning: gen_manual.sh uses an empty messaage
+#if [ -z $m ] ; then exit 0 ; fi
 
 ### TODO : Mehr Emojis, evtl manche gegen n ascii art ersetzen!
-## Replace some Emojis ###################
+## Replace some Emojis ############################################
 m=${m//😀/\ :-)\ }
 #m=${m//👍/\ :-)\ }
 

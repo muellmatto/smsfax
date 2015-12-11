@@ -1,9 +1,10 @@
 #!/bin/bash
 
 SMS_1_NUMBER="deinem SMS-Engel-Fax"
-# m1=$SMS_1_TEXT
 
-source sms.sh
+bindir="/home/matto/Workspace/engelsmsfax/smsfax/bin"
+
+source $bindir/sms.sh
 
 
 echo "Das Engelsmsfax bietet neben der schlichten Textausgabe auch ein paar Darstellungs-Features! So geht es:
@@ -18,14 +19,15 @@ Soll Stimpy in einer Sprechblase 'Oi!' rufen, würde die sms lauten:
 '#CS Oi!'
 
 Alle Möglichkeiten sind folgend dargestellt:
-" | /home/matto/bin/thermo.sh
+" | $bindir/thermo.sh
 
-echo -e "\n\n" | /home/matto/bin/thermo.sh
+echo -e "\n\n" | $bindir/thermo.sh
 
-# for m in "#AB " "#CC " "#CR " "#CS " "#CB " "#FC " "#FS " "#FI " "#F3 " ; do intro="$m" ; m="$m Oi!" ; parser | /home/matto/bin/thermo.sh ; done 
+## ascii art
+for m in "#AB " ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
 
-for m in "#AB " ; do intro="$m" ; m="$m Oi!" ; parser | /home/matto/bin/thermo.sh ; done 
+## cowsay
+for m in "#CB " "#Cb " "#CC " "#CE " "#CH " "#CK " "#CL " "#CM " "#CR " "#CS " "#Cs " "#CT " "#CV "  ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
 
-for m in "#CB " "#Cb " "#CC " "#CE " "#CH " "#CK " "#CL " "#CM " "#CR " "#CS " "#Cs " "#CT " "#CV "  ; do intro="$m" ; m="$m Oi!" ; parser | /home/matto/bin/thermo.sh ; done 
-
-for m in "#FC " "#FS " "#FI " "#F3 " ; do intro="$m" ; m="$m Oi!" ; parser | /home/matto/bin/thermo.sh ; done 
+## figlet fonts
+for m in "#FC " "#FS " "#FI " "#F3 " ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
