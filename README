@@ -13,6 +13,7 @@ setup:
 edit "bindir" in sms.sh and gen_manual.sh to the right location
 edit thermo.sh to choose a "printer" 
 
+If using "gammu-smsd", edit config to point  "RunOnReceive" to sms.sh
 
 get help:
 ./gen_manual
