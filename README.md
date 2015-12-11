@@ -18,11 +18,22 @@ This scripts uses:
 
 If using `gammu-smsd`, edit config to point `RunOnReceive` to `sms.sh`
 
-# get help
+# /bin 
+
+## get help
 
     ./gen_manual
 
-# usage
+## usage
 
     SMS_1_NUMBER="+49123456789" SMS_1_TEXT="#FS Test Oi!" ./sms.sh
+
+## check_ll.sh
+
+Check ASCII files for valid line length (<=24)  
+
+    18:51 $ ./check_ll.sh ../art/batman.txt 
+    OK ✔
+    18:51 $ ./check_ll.sh ../art/cowsay_head_in.txt 
+    ASCII ist zu breit!
 
