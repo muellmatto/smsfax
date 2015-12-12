@@ -3,7 +3,7 @@
 
 NUM=$(wc -L "$1"  |awk '{print $1}')
 if (( NUM > 24 )); then
-  echo "ASCII ist zu breit!"
+  echo "ASCII ist $((NUM -24)) Zeichen zu breit!"
   exit 1
 fi
 echo "OK ✔"
