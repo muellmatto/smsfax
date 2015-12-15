@@ -24,12 +24,13 @@ m=${m//😀/\ :-)\ }
 ## Script location #################################################
 bindir="/home/matto/Workspace/engelsmsfax/smsfax/bin"
 artdir="/home/matto/Workspace/engelsmsfax/smsfax/art"
+fontfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/fonts.csv"
 artfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/art.csv"
 numfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/nummern.csv"
 
 
 ## Substitute phonenumber with names ################################
-if [ -n $(grep $from "$numfile" | cut -d ";" -f 2) ]
+if [ $(grep $from "$numfile" | cut -d ";" -f 2) ]
     then
         from=$(grep $from "$numfile" | cut -d ";" -f 2)
 fi
@@ -98,23 +99,30 @@ cow () {
 
 ## figlet style / font out ###################################################
 font () {
-    case "${m:2:2}" in
-        "C ")
-            style="contessa"
-        ;;
-        "3 ")
-            style="banner3-D"
-        ;;
-        "S ")
-            style="small"
-        ;;
-        "I ")
-            style="isometric4"
-        ;;
-        *)
-            style="small"
-        ;;
-    esac
+    ## fallback-font
+    style="short"
+    # check art.csv
+    if [ $(grep "${m:2:2}" "$fontfile" | cut -d ";" -f 2) ]
+        then
+            style=$(grep "${m:2:2}" "$fontfile" | cut -d ";" -f 2)
+    fi
+    #case "${m:2:2}" in
+    #    "C ")
+    #        style="contessa"
+    #    ;;
+    #    "3 ")
+    #        style="banner3-D"
+    #    ;;
+    #    "S ")
+    #        style="small"
+    #    ;;
+    #    "I ")
+    #        style="isometric4"
+    #    ;;
+    #    *)
+    #        style="small"
+    #    ;;
+    #esac
     echo -e "$intro \n" | $bindir/thermo.sh
     ## figlet kennt keine Umlaute!
     m=${m//Ü/Ue}

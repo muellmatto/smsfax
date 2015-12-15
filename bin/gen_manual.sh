@@ -24,11 +24,10 @@ Alle Möglichkeiten sind folgend dargestellt:
 echo -e "\n\n" | $bindir/thermo.sh
 
 ## ascii art
-# for m in "#AB " ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
-for m in $(cut -d ';' -f 1 art.csv) ; do  intro="#A$m" ; m="#A$m "; parser | $bindir/thermo.sh ; done
+for m in $(cut -d ';' -f 1 $bindir/art.csv) ; do  intro="#A$m" ; m="#A$m "; parser | $bindir/thermo.sh ; done
 
 ## cowsay
 for m in "#CB " "#Cb " "#CC " "#CE " "#CH " "#CK " "#CL " "#CM " "#CR " "#CS " "#Cs " "#CT " "#CV "  ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
 
 ## figlet fonts
-for m in "#FC " "#FS " "#FI " "#F3 " ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
+for m in $(cut -d ';' -f 1 $bindir/fonts.csv) ; do intro="#F$m" ; m="#F$m Oi!" ; parser | $bindir/thermo.sh ; done
