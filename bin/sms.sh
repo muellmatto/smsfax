@@ -24,6 +24,7 @@ m=${m//😀/\ :-)\ }
 ## Script location #################################################
 bindir="/home/matto/Workspace/engelsmsfax/smsfax/bin"
 artdir="/home/matto/Workspace/engelsmsfax/smsfax/art"
+artfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/art.csv"
 numfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/nummern.csv"
 
 
@@ -132,14 +133,21 @@ font () {
 
 ## ascii art out ##########################################################
 art () {
-    case "${m:2:2}" in
-        "B ")
-            file="batman.txt"
-        ;;
-        *)
-            file="batman.txt"
-        ;;
-    esac
+    ## fallback-file
+    file="batman.txt"
+    # check art.csv
+    if [ -n $(grep ${m:2:2} "$artfile" | cut -d ";" -f 2) ]
+        then
+            file=$(grep ${m:2:2} "$artfile" | cut -d ";" -f 2)
+    fi
+    #case "${m:2:2}" in
+    #    "B ")
+    #        file="batman.txt"
+    #    ;;
+    #    *)
+    #        file="batman.txt"
+    #    ;;
+    #esac
     echo -e "$intro \n${m:4}\n" | $bindir/thermo.sh 
     cat "$artdir/$file" | $bindir/thermo.sh
 }
