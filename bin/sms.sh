@@ -136,9 +136,9 @@ art () {
     ## fallback-file
     file="batman.txt"
     # check art.csv
-    if [ -n $(grep ${m:2:2} "$artfile" | cut -d ";" -f 2) ]
+    if [ -n $(grep "${m:2:2}" "$artfile" | cut -d ";" -f 2) ]
         then
-            file=$(grep ${m:2:2} "$artfile" | cut -d ";" -f 2)
+            file=$(grep "${m:2:2}" "$artfile" | cut -d ";" -f 2)
     fi
     #case "${m:2:2}" in
     #    "B ")
