@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Gammu 40s later
+
+[Timer]
+OnBootSec=40
+Unit=gammu-smsd.service
+
+[Install]
+WantedBy=multi-user.target
