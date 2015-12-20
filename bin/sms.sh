@@ -22,11 +22,13 @@ m=${m//😀/\ :-)\ }
 
 
 ## Script location #################################################
-bindir="/home/matto/Workspace/engelsmsfax/smsfax/bin"
-artdir="/home/matto/Workspace/engelsmsfax/smsfax/art"
-fontfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/fonts.csv"
-artfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/art.csv"
-numfile="/home/matto/Workspace/engelsmsfax/smsfax/bin/nummern.csv"
+maindir="/home/matto/Workspace/engelsmsfax/smsfax"
+bindir="$maindir/bin"
+artdir="$maindir/art"
+fontfile="$maindir/bin/fonts.csv"
+cowfile="$maindir/bin/cowsay.csv"
+artfile="$maindir/bin/art.csv"
+numfile="$maindir/bin/nummern.csv"
 
 
 ## Substitute phonenumber with names ################################
@@ -48,51 +50,13 @@ out () {
 
 ## cowsay out ########################################################
 cow () {
-    case "${m:2:2}" in
-        "B ")
-            style="bong"
-        ;;
-        "b ")
-            style="bunny"
-        ;;
-        "C ")
-            style="small"
-        ;;
-        "E ")
-            style="elephant"
-        ;;
-        "H ")
-            style="hellokitty"
-        ;;
-        "K ")
-            style="koala"
-        ;;
-        "L ")
-            style="luke-koala"
-        ;;
-        "M ")
-            style="milk"
-        ;;
-        "R ")
-            style="ren"
-        ;;
-        "S ")
-            style="stimpy"
-        ;;
-        "s ")
-            style="sheep"
-        ;;
-        "T ")
-            style="tux"
-        ;;
-        "V ")
-            style="vader-koala"
-        ;;
-        *)
-            style="small"
-        ;;
-    esac
-    # -W 20 !
+    ## fallback style
+    style="small"
+    # check cowsay.csv
+    if [ $(grep "${m:2:2}" "$cowfile" | cut -d ";" -f 2) ]
+        then
+            style=$(grep "${m:2:2}" "$cowfile" | cut -d ";" -f 2)
+    fi
     cowsay -f $style -W 20 "$intro ${m:4}" | $bindir/thermo.sh
 }
 
@@ -106,23 +70,6 @@ font () {
         then
             style=$(grep "${m:2:2}" "$fontfile" | cut -d ";" -f 2)
     fi
-    #case "${m:2:2}" in
-    #    "C ")
-    #        style="contessa"
-    #    ;;
-    #    "3 ")
-    #        style="banner3-D"
-    #    ;;
-    #    "S ")
-    #        style="small"
-    #    ;;
-    #    "I ")
-    #        style="isometric4"
-    #    ;;
-    #    *)
-    #        style="small"
-    #    ;;
-    #esac
     echo -e "$intro \n" | $bindir/thermo.sh
     ## figlet kennt keine Umlaute!
     m=${m//Ü/Ue}
@@ -148,14 +95,6 @@ art () {
         then
             file=$(grep "${m:2:2}" "$artfile" | cut -d ";" -f 2)
     fi
-    #case "${m:2:2}" in
-    #    "B ")
-    #        file="batman.txt"
-    #    ;;
-    #    *)
-    #        file="batman.txt"
-    #    ;;
-    #esac
     echo -e "$intro \n${m:4}\n" | $bindir/thermo.sh 
     cat "$artdir/$file" | $bindir/thermo.sh
 }
