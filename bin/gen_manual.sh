@@ -27,7 +27,7 @@ echo -e "\n\n" | $bindir/thermo.sh
 for m in $(cut -d ';' -f 1 $bindir/art.csv) ; do  intro="#A$m" ; m="#A$m "; parser | $bindir/thermo.sh ; done
 
 ## cowsay
-for m in "#CB " "#Cb " "#CC " "#CE " "#CH " "#CK " "#CL " "#CM " "#CR " "#CS " "#Cs " "#CT " "#CV "  ; do intro="$m" ; m="$m Oi!" ; parser | $bindir/thermo.sh ; done 
+for m in $(cut -d ';' -f 1 $bindir/cowsay.csv) ; do intro="$m" ; m="#C$m Oi!" ; parser | $bindir/thermo.sh ; done 
 
 ## figlet fonts
 for m in $(cut -d ';' -f 1 $bindir/fonts.csv) ; do intro="#F$m" ; m="#F$m Oi!" ; parser | $bindir/thermo.sh ; done
