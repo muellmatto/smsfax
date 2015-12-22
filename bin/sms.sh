@@ -17,8 +17,20 @@ m=$m1$m2$m3$m4$m5
 
 ### TODO : Mehr Emojis, evtl manche gegen n ascii art ersetzen!
 ## Replace some Emojis ############################################
-m=${m//😀/\ :-)\ }
 #m=${m//👍/\ :-)\ }
+m=${m//☺/\ :)\ }
+m=${m//😊/\ :-)\ }
+m=${m//😀/\ :-D\ }
+m=${m//😁/\ :-)\ }
+m=${m//😂/\ :-)\ }
+m=${m//😃/\ :-)\ }
+m=${m//😄/\ :-)\ }
+m=${m//😅/\ :-)\ }
+m=${m//😆/\ :-)\ }
+m=${m//😉/\ :-)\ }
+m=${m//😯/\ :-)\ }
+
+
 
 
 ## Script location #################################################
@@ -99,6 +111,11 @@ art () {
     cat "$artdir/$file" | $bindir/thermo.sh
 }
 
+## binary picture out #######################################################
+bild () {
+    echo -e "$intro \n \n" | $bindir/thermo.sh 
+    echo ${m:2} | base64 -d | xxd -c 3 -b | cut -c 11-35 | sed -e 's/ //g' -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
+}
 
 ## Message parser #######################################################
 parser () {
@@ -111,6 +128,9 @@ parser () {
         ;;
         "#F")
             font
+        ;;
+        "#B")
+            bild
         ;;
         *)
             out
