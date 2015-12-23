@@ -114,7 +114,8 @@ art () {
 ## binary picture out #######################################################
 bild () {
     echo -e "$intro \n \n" | $bindir/thermo.sh 
-    echo ${m:2} | base64 -d | xxd -c 3 -b | cut -c 11-35 | sed -e 's/ //g' -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
+    #echo ${m:2} | base64 -d | xxd -c 3 -b | cut -c 11-35 | sed -e 's/ //g' -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
+    echo ${m:2} | base64 -d | xxd -g 0 -c 3 -b | cut -c 11-35 | sed -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
 }
 
 ## Message parser #######################################################
