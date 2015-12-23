@@ -44,9 +44,10 @@ numfile="$maindir/bin/nummern.csv"
 
 
 ## Substitute phonenumber with names ################################
-if [ $(grep $from "$numfile" | cut -d ";" -f 2) ]
+nummer=$from
+if [[ $(grep $from $numfile | cut -d ";" -f 2) ]]
     then
-        from=$(grep $from "$numfile" | cut -d ";" -f 2)
+        from=$(grep $from $numfile | cut -d ";" -f 2)
 fi
 
 
@@ -111,6 +112,7 @@ art () {
     cat "$artdir/$file" | $bindir/thermo.sh
 }
 
+
 ## binary picture out #######################################################
 bild () {
     echo -e "$intro \n \n" | $bindir/thermo.sh 
@@ -118,20 +120,37 @@ bild () {
     echo ${m:2} | base64 -d | xxd -g 0 -c 3 -b | cut -c 11-35 | sed -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
 }
 
+
+## register nickname #######################################################
+nickname () {
+    echo -e "$from heißt jetzt ${m:3}" | $bindir/thermo.sh
+    if [[ $(grep $from $numfile | cut -d ";" -f 2) ]]
+        then
+            sed -i "s/$nummer;$from/$nummer;${m:3}/g" $numfile
+        else
+            echo "$nummer;${m:3}" >> $numfile
+        fi
+     
+}
+
+
 ## Message parser #######################################################
 parser () {
     case ${m:0:2} in
-        "#C")
-            cow
-        ;;
         "#A")
             art
+        ;;
+        "#B")
+            bild
+        ;;
+        "#C")
+            cow
         ;;
         "#F")
             font
         ;;
-        "#B")
-            bild
+        "#N")
+            nickname
         ;;
         *)
             out
