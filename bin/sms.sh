@@ -84,6 +84,7 @@ font () {
             style=$(grep "${m:2:2}" "$fontfile" | cut -d ";" -f 2)
     fi
     echo -e "$intro \n" | $bindir/thermo.sh
+    sleep 1 # mehr zeit 
     ## figlet kennt keine Umlaute!
     m=${m//Ü/Ue}
     m=${m//ü/ue}
@@ -92,10 +93,12 @@ font () {
     m=${m//Ö/Oe}
     m=${m//ö/oe}
     m=${m//ß/ss}
+
     #### TODO
     ## Große Fonts, wie isometric drucken keine leerzeichen, baucht wie nen workaround
-    ## vll n paar mal echo -e "\n" | $bindir/thermo.sh oder so 
-    figlet -w 24 -f $style "${m:4}" | $bindir/thermo.sh
+    ## vll n paar mal echo -e "\n" | $bindir/thermo.sh oder so
+    ## sed -e 's/ /\n\n/g' 
+    echo -e "${m:4}" | figlet -w 24 -f $style | $bindir/thermo.sh
 }
 
 
@@ -123,14 +126,57 @@ bild () {
 
 ## register nickname #######################################################
 nickname () {
-    echo -e "$from heißt jetzt ${m:3}" | $bindir/thermo.sh
-    if [[ $(grep $from $numfile | cut -d ";" -f 2) ]]
+    if [[ ${m:3} ]]
         then
-            sed -i "s/$nummer;$from/$nummer;${m:3}/g" $numfile
-        else
-            echo "$nummer;${m:3}" >> $numfile
-        fi
+            echo -e "$from heißt jetzt ${m:3}" | $bindir/thermo.sh
+            if [[ $(grep "$from" "$numfile" | cut -d ";" -f 2) ]]
+                then
+                sed -i "s/$nummer;$from/$nummer;${m:3}/g" $numfile
+            else
+                echo "$nummer;${m:3}" >> $numfile
+            fi
+    fi
      
+}
+
+
+## Print Manual #######################################################
+genmanual () {
+echo "Das Engel-Sms-Fax
+bietet neben der
+schlichten Textausgabe
+auch ein paar
+Darstellungs-Features!
+So geht es:
+Vor den SMS-TEXT 4
+Zeichen setzen. Das
+erste ist immer '#'.
+Mit dem zweiten Zeichen
+wird die Aktion gewählt: 
+'A' = AsciiArt
+'C' = Cowsay,
+'F' = Font.
+Das dritte Zeichen
+wählt den 'Style' aus.
+Abschließend kommt ein
+Leerzeichen.
+Soll Stimpy in einer
+Sprechblase Oi! rufen,
+würde die sms lauten:
+'#CS Oi!'
+Alle Möglichkeiten sind folgend dargestellt:
+" | $bindir/thermo.sh
+
+echo -e "\n\n" | $bindir/thermo.sh
+
+## ascii art
+for m in $(cut -d ';' -f 1 $bindir/art.csv) ; do  intro="#A$m" ; m="#A$m "; parser | $bindir/thermo.sh ; done
+
+## cowsay
+for m in $(cut -d ';' -f 1 $bindir/cowsay.csv) ; do intro="#C$m" ; m="#C$m Oi!" ; parser | $bindir/thermo.sh ; done 
+
+## figlet fonts
+for m in $(cut -d ';' -f 1 $bindir/fonts.csv) ; do intro="#F$m" ; m="#F$m Oi!" ; parser | $bindir/thermo.sh ; done
 }
 
 
@@ -148,6 +194,9 @@ parser () {
         ;;
         "#F")
             font
+        ;;
+        "#H")
+            genmanual
         ;;
         "#N")
             nickname
