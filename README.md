@@ -6,6 +6,7 @@ This scripts uses:
 * figlet (figlet)
 * figlet-fonts (AUR!)
 * cowsay (cowsay)  
+* xxd (vim)
 
         pacman -S community/dos2unix figlet cowsay
         yaourt -S figlet-fonts
