@@ -8,5 +8,6 @@ while IFS= read -r line
     # -w 24 müsste richtig sein, aber 25 klappt auch und wurde im netz empfohle ...
     # do echo -n "$line" | fmt -w 24 -s | unix2dos | iconv -f UTF-8 -t 437 -c > /dev/usb/lp0
     # do echo -n "$line" | fmt -w 25 -s | unix2dos | iconv -f UTF-8 -t 437 -c > /dev/usb/lp0
+    sleep 1.6
 done
 
