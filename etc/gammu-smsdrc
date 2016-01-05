@@ -4,7 +4,7 @@
 # Gammu configuration, this section is like section "gammu" in "gammurc" file,
 # see gammurc(5) for documentation.
 [gammu]
-port=/dev/ttyUSB0
+port=/dev/modem
 connection=at
 name=Huawei E173
 synchronizetime = yes
