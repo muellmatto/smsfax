@@ -1,2 +1,2 @@
-ACTION=="add", ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1436", SYMLINK+="modem"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1436", SYMLINK+="modem"
 

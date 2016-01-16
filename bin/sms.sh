@@ -15,6 +15,16 @@ m=$m1$m2$m3$m4$m5
 ## Warning: gen_manual.sh uses an empty messaage
 #if [ -z $m ] ; then exit 0 ; fi
 
+
+## Get Date from SMS: ############################################
+Jahr=${1:2:4}
+Jahr=$((Jahr - 30))
+month=(XXX Januar Februar März April Mai Juni Juli August September Oktober November Dezember)
+Monat=${month[${1:6:2}]}
+Tag=${1:8:2}
+Stunde=${1:11:2}
+Minute=${1:13:2}
+
 ### TODO : Mehr Emojis, evtl manche gegen n ascii art ersetzen!
 ## Replace some Emojis ############################################
 #m=${m//👍/\ :-)\ }
@@ -34,7 +44,7 @@ m=${m//😯/\ :-)\ }
 
 
 ## Script location #################################################
-maindir="/home/matto/Workspace/engelsmsfax/smsfax"
+maindir="/home/alarm/Workspace/engelsmsfax/smsfax"
 bindir="$maindir/bin"
 artdir="$maindir/art"
 fontfile="$maindir/bin/fonts.csv"
@@ -52,8 +62,15 @@ fi
 
 
 ## Greeter ##########################################################
-intro="Wichtige Durchsage von $from!"
+#intro="Es ist $Stunde:$Minute Uhr am $Tag. $Monat $Jahr und es gibt eine Wichtige Durchsage von $from!"
+intro="$Tag. $Monat $Jahr, $Stunde:$Minute Wichtige Durchsage von $from!"
 
+# intro="Wichtige Durchsage von $from!"
+#date='╔═════════════╦════╗
+#║'$Tag'. '$Monat'║'$Jahr'║
+#╠═════════════╩════╣
+#║       '$Stunde':'$Minute'      ║
+#╚══════════════════╝'
 
 ## Plain text out ###################################################
 out () {
@@ -119,8 +136,7 @@ art () {
 ## binary picture out #######################################################
 bild () {
     echo -e "$intro \n \n" | $bindir/thermo.sh 
-    #echo ${m:2} | base64 -d | xxd -c 3 -b | cut -c 11-35 | sed -e 's/ //g' -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
-    echo ${m:2} | base64 -d | xxd -g 0 -c 3 -b | cut -c 11-35 | sed -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
+    echo ${m:2} | base64 -d | xxd -g 0 -c 3 -b | cut -c 11-33 | sed -e 's/0/ /g' -e 's/1/#/g' | $bindir/thermo.sh
 }
 
 

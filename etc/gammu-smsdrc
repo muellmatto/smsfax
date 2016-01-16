@@ -5,7 +5,10 @@
 # see gammurc(5) for documentation.
 [gammu]
 port=/dev/modem
-connection=at
+#port=/dev/modem
+#connection=at
+connection = at115200
+#connection = at19200
 name=Huawei E173
 synchronizetime = yes
 #logfile = gammulog # this is not used at all in SMSD mode
@@ -41,15 +44,15 @@ debuglevel = 0
 # Configuration for using more phones on same database
 #phoneid = MyPhone1
 # Script to be executed when new message has been received
-runonreceive = /home/matto/Workspace/engelsmsfax/smsfax/bin/sms.sh
+runonreceive = /home/alarm/Workspace/engelsmsfax/smsfax/bin/sms.sh
 # Commication frequency settings
 commtimeout = 30
 sendtimeout = 30
 #receivefrequency = 0
 
 # Phone communication settings
-#checksecurity = 1
-#resetfrequency = 0
+# checksecurity = 1
+# resetfrequency = 60
 
 # Delivery report configuration
 #deliveryreport = no
@@ -72,7 +75,7 @@ driver = sqlite
 # dbdir = /var/lib/smsd
 
 # Files backend configuration
-inboxpath = /home/matto/inbox/
+inboxpath = /home/alarm/inbox/
 #outboxpath = /var/spool/sms/outbox/
 #sentsmspath = /var/spool/sms/sent/
 #errorsmspath = /var/spool/sms/error/

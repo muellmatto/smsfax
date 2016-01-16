@@ -2,7 +2,7 @@
 
 SMS_1_NUMBER="deinem SMS-Engel-Fax"
 
-bindir="/home/matto/Workspace/engelsmsfax/smsfax/bin"
+bindir="/home/alarm/Workspace/engelsmsfax/smsfax/bin"
 
 source $bindir/sms.sh
 
