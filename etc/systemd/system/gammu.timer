@@ -2,7 +2,8 @@
 Description=Run Gammu 40s later
 
 [Timer]
-OnBootSec=40
+OnBootSec=60
+OnUnitInactiveSec=5min
 Unit=gammu-smsd.service
 
 [Install]

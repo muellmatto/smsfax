@@ -1,0 +1,10 @@
+[Unit]
+Description=Start reboot.service
+
+[Timer]                                                                                                                                                                 
+OnBootSec=4 days
+Unit=reboot.service
+
+[Install]
+WantedBy=multi-user.target
+

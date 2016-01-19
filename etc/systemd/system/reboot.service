@@ -1,0 +1,8 @@
+Description=Reboot system
+                                                                                                                                                                        
+[Service]
+ExecStart=/usr/bin/systemctl reboot
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
