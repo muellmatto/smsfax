@@ -7,9 +7,11 @@ This scripts uses:
 * figlet-fonts (AUR!)
 * cowsay (cowsay)  
 * xxd (vim)
+* python
+* python-raspberry-gpio (AUR!)
 
         pacman -S community/dos2unix figlet cowsay
-        yaourt -S figlet-fonts
+        yaourt -S figlet-fonts python-raspberry-gpio
 
 
 # setup
