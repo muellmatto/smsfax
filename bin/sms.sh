@@ -142,6 +142,58 @@ bild () {
 }
 
 
+
+## foto out #######################################################
+foto () {
+    echo -e "$intro \n \n" | $bindir/thermo.sh 
+
+    ## Nachricht=#F<4-Zeichen-Alphabet><Base64>
+
+    ## Get Alphabet 
+    A1="${m:2:1}"
+    A2="${m:3:1}" 
+    A3="${m:4:1}" 
+    A4="${m:5:1}"
+
+    ## Testpattern
+    # bin=$(dd if=/dev/urandom bs=114 count=1 iflag=fullblock 2>/dev/null | xxd -b -g 0 -c 6 | cut -c 11-56)
+
+    ## get mesage
+    bin=$(echo ${m:6}| bae64 -d | xxd -b -g 0 -c 6 | cut -c 11-56)
+
+    pic=""
+
+    ## Zeile für Zeile! 
+    for line in $bin
+        do
+            for i in {0..26}
+                do
+                    case ${line:$((i*2)):2} in
+                        00)
+                            pic=$pic"$A1"
+                            ;;
+                        01)
+                            pic=$pic"$A2"
+                            ;;
+                        10)
+                            pic=$pic"$A3"
+                            ;;
+                        11)
+                            pic=$pic"$A4"
+                            ;;
+                        *)
+                            pic=$pic"X"
+                            ;;
+                    esac
+                done
+            pic=$pic'\n'
+        done
+    echo -e "$pic" | $bindir/thermo.sh
+}
+
+
+
+
 ## register nickname #######################################################
 nickname () {
     if [[ ${m:3} ]]
@@ -218,6 +270,9 @@ parser () {
         ;;
         "#N")
             nickname
+        ;;
+        "#P")
+            foto
         ;;
         *)
             out
