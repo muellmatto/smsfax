@@ -159,16 +159,16 @@ foto () {
     # bin=$(dd if=/dev/urandom bs=114 count=1 iflag=fullblock 2>/dev/null | xxd -b -g 0 -c 6 | cut -c 11-56)
 
     ## get mesage
-    bin=$(echo ${m:6}| bae64 -d | xxd -b -g 0 -c 6 | cut -c 11-56)
+    bin=$(echo ${m:6}| base64 -d | xxd -b -g 0 -c 6 | cut -c 11-56)
 
     pic=""
 
     ## Zeile für Zeile! 
     for line in $bin
         do
-            for i in {0..26}
+            for (( i=0; i<${#line}; i=i+2 ))
                 do
-                    case ${line:$((i*2)):2} in
+                    case ${line:$i:2} in
                         00)
                             pic=$pic"$A1"
                             ;;
@@ -180,9 +180,6 @@ foto () {
                             ;;
                         11)
                             pic=$pic"$A4"
-                            ;;
-                        *)
-                            pic=$pic"X"
                             ;;
                     esac
                 done
