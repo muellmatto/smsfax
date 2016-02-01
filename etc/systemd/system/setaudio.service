@@ -1,0 +1,9 @@
+[Unit]
+Description=Set Audio PWM
+
+[Service]
+ExecStart=/home/alarm/Workspace/engelsmsfax/smsfax/bin/set-audio-gpio.sh
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
