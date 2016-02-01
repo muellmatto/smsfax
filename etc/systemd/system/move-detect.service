@@ -1,0 +1,8 @@
+Description=Reboot system
+                                                                                                                                                                        
+[Service]
+ExecStart=/home/alarm/Workspace/engelsmsfax/smsfax/bin/move-detect.py
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
