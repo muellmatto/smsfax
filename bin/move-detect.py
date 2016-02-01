@@ -5,7 +5,6 @@ import time
 import signal
 import os
 import sys
-# import subprocess
 import random
 
 
@@ -15,11 +14,14 @@ TEXTE_FILE = "/home/alarm/texte.txt"
 SENSOR_PIN = 4
 LED_PIN = 23
 
-## Get list of files and/or lines of Text
+## sleep time in sec
+SLEEP_MIN=5
+SLEEP_MAX=30
+SLEEP_STEP=5
+
+
+## Get list of files
 WAVE_FILES=os.listdir(SAMPLES_PATH)
-with open(TEXTE_FILE) as f:
-    content = f.readlines()
-content = [x.strip('\n') for x in content]
 
 ## Setup GPIO
 GPIO.setmode(GPIO.BCM)
@@ -39,11 +41,9 @@ signal.signal(signal.SIGTERM, signal_term_handler)
 def sprich(bla):
     GPIO.remove_event_detect(SENSOR_PIN)
     GPIO.output(LED_PIN, True)
-    WAVE_FILE=random.choice( WAVE_FILES )#
+    WAVE_FILE=random.choice( WAVE_FILES )
     os.system("/usr/bin/aplay " + SAMPLES_PATH + WAVE_FILE)
-    #subprocess.run(["/usr/bin/aplay", SAMPLES_PATH + WAVE_FILE])
-    #subprocess.run(["/home/alarm/sprich.sh" , random.choice(content) ])
-    time.sleep(5)
+    time.sleep( random.randrange(SLEEP_MIN, SLEEP_MAX, SLEEP_STEP) )
     GPIO.output(LED_PIN, False)
     GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=sprich, bouncetime=300)
 
