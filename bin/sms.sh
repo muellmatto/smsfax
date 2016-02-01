@@ -195,7 +195,7 @@ foto () {
 nickname () {
     if [[ ${m:3} ]]
         then
-            echo -e "$from heißt jetzt ${m:3}" | $bindir/thermo.sh
+            echo -e "\"$from\" ($nummer) heißt jetzt \"${m:3}\"" | $bindir/thermo.sh
             if [[ $(grep "$from" "$numfile" | cut -d ";" -f 2) ]]
                 then
                 sed -i "s/$nummer;$from/$nummer;${m:3}/g" $numfile
