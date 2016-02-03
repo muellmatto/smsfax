@@ -17,5 +17,5 @@ while IFS= read -r line
 done
 
 ## Wait and kill led-script
-sleep 2
+# sleep 2
 kill $pid_blink

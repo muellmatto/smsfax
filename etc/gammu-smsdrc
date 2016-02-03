@@ -38,7 +38,8 @@ service = files
 # PIN for SIM card
 # PIN = 1234
 # File (or stderr, syslog, eventlog) where information will be logged
-logfile = smsdlog
+# logfile = smsdlog
+logfile = stderr
 # Amount of information being logged, each bit mean one level
 debuglevel = 0
 # Configuration for using more phones on same database
