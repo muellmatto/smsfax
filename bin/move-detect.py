@@ -52,7 +52,9 @@ def blink():
         for i in range(100,-1,-1): 
             auge1.ChangeDutyCycle(i)  
             auge2.ChangeDutyCycle(i) 
-            time.sleep(pause_time)  
+            time.sleep(pause_time)
+    auge1.stop()
+    auge2.stop() 
 
 ## Sigterm abfangen und LEDs wieder aus machen!!
 def signal_term_handler(signal, frame):
@@ -90,9 +92,6 @@ try:
 except:
     print("Beende...")
     GPIO.remove_event_detect(SENSOR_PIN)
-    # GPIO.output(LED_PIN,False) 
-    # GPIO.output(LED_PIN_A,False) 
-    # GPIO.output(LED_PIN_B,False)
     auge1.stop()
     auge2.stop() 
     GPIO.cleanup()
