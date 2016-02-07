@@ -11,6 +11,9 @@ import threading
 ## Pfad zu den Soundsamples
 SAMPLES_PATH="/home/alarm/samples/"
 
+## get list of wave files
+WAVE_FILES = os.listdir(SAMPLES_PATH)
+
 ## Wartezeit bis der Bewegungsmelder wieder aktiviert wird (in sec)
 SLEEP_MIN=5
 SLEEP_MAX=30
@@ -28,7 +31,7 @@ GPIO.setup(LED_PIN_A, GPIO.OUT)
 GPIO.setup(LED_PIN_B, GPIO.OUT)  
 
 ## Builtin-PWN-Objekte: PIN,Frequenz 
-auge1=GPIO.PWM(LEN_PIN_A,100)  
+auge1=GPIO.PWM(LED_PIN_A,100)  
 auge2=GPIO.PWM(LED_PIN_B,100) 
 
 ## Sigterm-Funktion - Alles wieder zurücksetzen
@@ -43,7 +46,7 @@ def signal_term_handler(signal, frame):
 signal.signal(signal.SIGTERM, signal_term_handler)
 
 ## PWM Funktion
-def blink():
+def blink(bla):
     ## Event entfernen, damit nicht mehrere Nachrichten Zeitgleich abgespielt werden
     GPIO.remove_event_detect(SENSOR_PIN)
     ## Soundausgabe als Thread
@@ -71,12 +74,12 @@ def blink():
     auge2.stop() 
     ## Warte zufällig lange bis es wieder losgehen kann
     time.sleep( random.randrange(SLEEP_MIN, SLEEP_MAX, SLEEP_STEP) )
-    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=sprich, bouncetime=300)
+    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=blink, bouncetime=300)
 
 
 
 ## Sprachausgabe
-def sprich(bla):
+def sprich():
     ## Zufällige Wave-Datei abspielen
     WAVE_FILE=random.choice( WAVE_FILES )
     os.system("/usr/bin/aplay " + SAMPLES_PATH + WAVE_FILE)
