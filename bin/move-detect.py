@@ -14,10 +14,10 @@ SAMPLES_PATH="/home/alarm/samples/"
 ## get list of wave files
 WAVE_FILES = os.listdir(SAMPLES_PATH)
 
-## Wartezeit bis der Bewegungsmelder wieder aktiviert wird (in sec)
-SLEEP_MIN=5
-SLEEP_MAX=30
-SLEEP_STEP=5
+## 
+START_TIME = time.time()
+#MAX_TIME = 60
+MAX_TIME = 60*60*3
 
 ## GPIO - PINs
 SENSOR_PIN = 4
@@ -46,9 +46,7 @@ def signal_term_handler(signal, frame):
 signal.signal(signal.SIGTERM, signal_term_handler)
 
 ## PWM Funktion
-def blink(bla):
-    ## Event entfernen, damit nicht mehrere Nachrichten Zeitgleich abgespielt werden
-    GPIO.remove_event_detect(SENSOR_PIN)
+def blink():
     ## Soundausgabe als Thread
     ton = threading.Thread(target=sprich)
     ton.start()
@@ -72,9 +70,6 @@ def blink(bla):
     # LEDs ausschalten
     auge1.stop()
     auge2.stop() 
-    ## Warte zufällig lange bis es wieder losgehen kann
-    time.sleep( random.randrange(SLEEP_MIN, SLEEP_MAX, SLEEP_STEP) )
-    GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=blink, bouncetime=300)
 
 
 
@@ -84,10 +79,36 @@ def sprich():
     WAVE_FILE=random.choice( WAVE_FILES )
     os.system("/usr/bin/aplay " + SAMPLES_PATH + WAVE_FILE)
 
+
+
+def runtime():
+    """Gibt die Zeit in Seknden zurück, die das
+    Script bereits läuft."""
+    return time.time() - START_TIME
+
+def coinToss(WKEIT):
+    """Führe ein Zufallsexperiment mit gegebener
+    Wahrscheinlichkeit aus. Bei Erfolg wird 1, 
+    sonst 0 zurückgegeben."""
+    return random.random() < WKEIT;
+
+def wahrscheinlichkeit(Zeit):
+    """Berechnet eine Wahrscheinlichkeit aus gegebener Zeit"""
+    # Nach Zeit TIME soll spätestens ein neues Ereignis kommen!
+    WKEIT = Zeit/MAX_TIME
+    return WKEIT
+
+def maybespeak(bla):
+    """Versuch zu sprechen!"""
+    if coinToss( wahrscheinlichkeit(runtime() ) ):
+        ## Event entfernen, damit nicht mehrere Nachrichten Zeitgleich abgespielt werden
+        GPIO.remove_event_detect(SENSOR_PIN)
+        blink()
+        START_TIME = time.time()
+        GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=blink, bouncetime=1000)
+
 ## Event für den Bewegungsmelder
-GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=blink, bouncetime=300)	
-
-
+GPIO.add_event_detect(SENSOR_PIN, GPIO.RISING, callback=maybespeak, bouncetime=1000)	
 
 ## Loop forever!!!
 try:
@@ -100,7 +121,4 @@ except:
     auge1.stop()
     auge2.stop() 
     GPIO.cleanup()
-
-
-
 
